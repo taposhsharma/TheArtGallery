@@ -8,7 +8,7 @@ function authenticate(req, res, next) {
   }
   const secret = process.env.SECRET_KEY;
   jwt.verify(token, secret, (err, decoded) => {
-    console.log(decoded);
+    // console.log(decoded);
     if (err) {
       return res.status(401).send('Unauthorized: Invalid token');
     }

@@ -6,6 +6,8 @@ import ArtistProfile from "./components/ArtistProfile"
 import CreateProfile from "./components/CreateProfile"
 import HomePage from './components/HomePage'
 import CreatePost from "./components/CreatePost"
+import UpdatePost from "./components/UpdatePost" 
+import UpdateProfile from "./components/UpdateProfile"
 
 const routes =[
   {path:'/' ,name:"home" ,component:HomePage},
@@ -14,7 +16,9 @@ const routes =[
   {path:'/display', component:DisplayData} ,
   {path:"/artistProfile",component:ArtistProfile},
   {path:"/createProfile",component:CreateProfile},
-  {path:"/createPost",name:"createPost",component:CreatePost}
+  {path:"/createPost",name:"createPost",component:CreatePost},
+  {path:"/updatePost",name:'updatePost',component:UpdatePost},
+  {path:'/updateprofile',name:'updateProfile',component:UpdateProfile}
 ]
 
 

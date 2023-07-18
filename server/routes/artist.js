@@ -53,8 +53,7 @@ const upload = multer({dest: "uploads/",
     } 
   });
   
-
-router.get("/check",async ( req ,res)=>{
+router.get("/updateprofile/:id",async ( req ,res)=>{
      return res.status(200).send("authorized")
 })
 
