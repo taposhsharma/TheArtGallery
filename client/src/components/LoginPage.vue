@@ -103,9 +103,34 @@
       
      };
    },
-   created(){
-     
-   },
+  
+    created(){
+        const user = JSON.parse(localStorage.getItem("user"));
+        if(user===null){
+            this.$router.push({name:"login"})
+        }else{
+            this.token = user.token
+            // console.log(this.token)
+      axios.defaults.headers.common["Authorization"] = this.token ;
+      
+        axios.get("http://localhost:5000/check")
+        .then(response=>{
+            console.log(response.data)
+          
+            if(response.data !=="authorized"){
+                console.log("hii")
+                
+            }else{
+              this.$router.push({name:"home"})
+            }
+        })
+        .catch(err=>{
+           
+            console.log(err.response.data)
+           
+        })
+    }
+    },
    methods: {
      submitForm() {
          const data = {
@@ -126,7 +151,10 @@
       this.mess ="Password Incorrect"
     }
     else{
+      console.log('hello')
      setToken(JSON.stringify(response.data.user))
+     this.$router.push({name:'home'})
+     this.$store.commit('changeLog')
     }
 
    

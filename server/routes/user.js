@@ -11,6 +11,13 @@ const upload = multer({dest: "uploads/",
     }
   });
 
+  const authenticate = require('../verifyToken')
+  
+  router.get("/check",authenticate,async ( req ,res)=>{
+    return res.status(200).send("authorized")
+  })
+
+
   router.post('/login', (req, res) => {
 
     const { email,password } = req.body;
@@ -96,5 +103,36 @@ router.get("/display",(req,res)=>{
     catch{
 
     }
+})
+
+router.get("/data/:id", async (req,res)=>{
+  const id = req.params.id
+  const query = ` SELECT
+  ap.*,
+  ap.artistid AS artistId,
+  ui.firstname AS artistFirstName,
+  ui.lastnaem as artistLastName,
+  ui.p_image AS artistPic,
+  w.id AS image_id,
+  w.description,
+  w.image,
+  w.name AS imageName
+FROM
+  artist_profile AS ap
+LEFT JOIN
+  work AS w ON ap.artistid = w.artistid
+LEFT JOIN
+  user_info AS ui ON ap.artistid = ui.id
+WHERE
+  ap.artistId = $1;
+`
+  client.query(query,[id],(err,results)=>{
+    if(err){
+      console.log(err)
+    }else{
+      //console.log(results.rows)
+      res.status(200).send(results.rows)
+    }
+   })
 })
 module.exports = router

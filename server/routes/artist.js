@@ -53,21 +53,79 @@ const upload = multer({dest: "uploads/",
     } 
   });
   
-router.get("/updateprofile/:id",async ( req ,res)=>{
-     return res.status(200).send("authorized")
+router.get("/updateprofile",async ( req ,res)=>{
+     
+     
+     const query = `  SELECT ap.*,ap.artistid as artistId, w.id as image_id,w.description,w.image,w.name as imageName    FROM artist_profile AS ap LEFT
+     JOIN work AS w ON ap.artistid = w.artistid
+     WHERE ap.artistId = $1`
+
+     client.query(query,[req.id],(err,results)=>{
+      if(err){
+        console.log(err)
+      }else{
+        //console.log(results.rows)
+        res.status(200).send(results.rows)
+      }
+     })
+
 })
 
-router.get("/data", async (req,res)=>{
-  const query ='select * from artist_profile'
-  await client.query(query,(err,results)=>{
-    if(err){
-      console.log(err)
+
+
+
+// update profile data 
+
+router.post("/updateprofile",upload.array('images'),async (req,res)=>{
+  const files = req.files;
+  const { name, about, achievements,image_id, imageNames, aboutImages } = JSON.parse(req.body.data);
+ try{
+  const query ='update artist_profile set name = $1 ,about=$2,achievement =$3 where artistId =$4 returning id'
+  const updatedValues = [name, about, achievements,req.id]
+  const results = await client.query(query,updatedValues)
+  if(results.rows.length>0){
+    for(let i=0;i<files.length;i++){
+      if(files[i].originalname=='no-image.txt'){
+        if(image_id[i]==0){
+          const insertWorkQuery = 'INSERT INTO work (name, description, artistId) VALUES ($1, $2, $3, $4)';
+          const workValues = [imageNames[i], aboutImages[i],req.id];
+          await client.query(insertWorkQuery, workValues);
+        }else{
+          const updateQuery ='update work set name=$1,description=$2 where id=$3'
+          const updatedValues=[imageNames[i],aboutImages[i],image_id[i]]
+          await client.query(updateQuery,updatedValues)
+        }
+      }else{
+        const file = files[i];
+        const imageBuffer = fs.readFileSync(file.path);
+        if(image_id[i]==0){
+          const insertWorkQuery = 'INSERT INTO work (name, description, artistId, image) VALUES ($1, $2, $3, $4)';
+          const workValues = [imageNames[i], aboutImages[i], req.id, imageBuffer];
+          client.query(insertWorkQuery, workValues);
+        }else{
+          const updateQuery ='update work set name=$1,description=$2 ,image=$3 where id=$4'
+          const updatedValues=[imageNames[i],aboutImages[i],imageBuffer,image_id[i]]
+          await client.query(updateQuery,updatedValues)
+        }
+      }
     }
-    else{
-      res.send(results)
-      console.log(results)
-    }
-  })
+    client.query('COMMIT');
+    res.status(200).send("Profile Updated");
+  }
+ }catch(err){
+  await client.query('ROLLBACK');
+  console.error(err);
+  res.status(500).send("Error while submitting the profile");
+ }
+  // const query ='update artist_profile set name = $1 "about"=$2,achievemnt =$3 where artistId =$4 '
+  // const updatedValues = [name, about, achievements,req.id]
+  // await client.query(query,updatedValues,(err,res))
+  // console.log(req.body.data)
+  
+     
 })
 
+router.get("/check",async ( req ,res)=>{
+  return res.status(200).send("authorized")
+})
 module.exports = router
