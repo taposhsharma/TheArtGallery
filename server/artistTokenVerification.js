@@ -3,14 +3,15 @@ require('dotenv').config()
 
 function authenticate(req, res, next) {
   const token = req.headers.authorization;
-  console.log(token);
+  //  console.log(token);
+  // console.log(req.headers)
   if (!token) {
     return res.status(401).send('Unauthorized');
   }
 
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    console.log(decoded);
+    // console.log(decoded);
     if (decoded.role !== 'artist') {
         console.log("hello")
       return res.status(403).send('Forbidden');

@@ -8,17 +8,19 @@ import HomePage from './components/HomePage'
 import CreatePost from "./components/CreatePost"
 import UpdatePost from "./components/UpdatePost" 
 import UpdateProfile from "./components/UpdateProfile"
+import UserProfile from './components/UserProfile'
 
 const routes =[
   {path:'/' ,name:"home" ,component:HomePage},
   {path:'/login' ,name:"login" , component:LoginPage},
-  {path:"/signup", component:SignupPage},
+  {path:"/signup", name:'signup',component:SignupPage},
   {path:'/display', component:DisplayData} ,
   {path:"/artistProfile",component:ArtistProfile},
   {path:"/createProfile",component:CreateProfile},
   {path:"/createPost",name:"createPost",component:CreatePost},
   {path:"/updatePost",name:'updatePost',component:UpdatePost},
-  {path:'/updateprofile',name:'updateProfile',component:UpdateProfile}
+  {path:'/updateprofile',name:'updateProfile',component:UpdateProfile},
+  {path:'/userprofile', name:'userprofile',component:UserProfile}
 ]
 
 

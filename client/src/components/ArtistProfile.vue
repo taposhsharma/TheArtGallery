@@ -5,16 +5,13 @@
         <div class="col-md-6 details">
           <div>
             <div class="profile">
-              <h2 class="display-4">Artist Name</h2>
+              <h2 class="display-4">{{ firstname }} &nbsp;{{ lastname }}</h2>
+              <h3>{{ myprofile }}</h3>
             </div>
             <div class="description">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                tincidunt urna et est eleifend hendrerit. Integer tristique
-                fermentum turpis, a sagittis quam scelerisque eu. Nulla
-                pulvinar, turpis sed fermentum cursus, nisl massa tincidunt
-                massa, in pharetra ipsum felis vel metus. Quisque sollicitudin
-                lectus eget gravida ultrices.
+                
+                {{ description }}
               </p>
             </div>
           </div>
@@ -23,7 +20,7 @@
           <div class="image-container">
             <figure class="wave">
               <img
-                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1602040491414/RKBo8jy-u.jpeg"
+                :src="profilepic"
                 alt="profile"
               />
             </figure>
@@ -51,7 +48,7 @@
               <i class="bi-disc-fill"></i>
             </div>
             <div class="col-11">
-              <p>{{ acheivement.description }}</p>
+              <p>{{ acheivement}}</p>
             </div>
           </div>
         </div>
@@ -83,50 +80,69 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "ArtistProfile",
   data() {
     return {
+      firstname:'',
+      lastname:'',
+      myprofile:'',
+      description:'',
+      profilepic:'',
       acheivements: [
-        {
-          title: "Solo Exhibition",
-          year: 2020,
-          description:
-            "Showcased a collection of artwork in a solo exhibition at XYZ Gallery.",
-        },
-        {
-          title: "Art Award",
-          year: 2019,
-          description:
-            "Received the Best Artist of the Year award from the Art Association.",
-        },
-        {
-          title: "Featured in Magazine",
-          year: 2018,
-          description:
-            "Artwork featured in the prestigious Art & Design Magazine's special edition.",
-        },
-        {
-          title: "Public Art Commission",
-          year: 2017,
-          description:
-            "Commissioned to create a large-scale public art installation for a city project.",
-        },
-        {
-          title: "Artist Residency",
-          year: 2016,
-          description:
-            "Participated in a renowned artist residency program at an international art center.",
-        },
+  
       ],
+      artistwork:[],
       images: [
-        "https://images.pexels.com/photos/2983141/pexels-photo-2983141.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-        "https://www.fitoor.com.pk/wp-content/uploads/2020/10/IMG_20200929_003608.jpg",
-        "https://www.fitoor.com.pk/wp-content/uploads/2020/10/IMG_20200929_003608.jpg",
-        "https://www.fitoor.com.pk/wp-content/uploads/2020/10/IMG_20200929_003608.jpg",
+  
       ],
     };
   },
+  created(){
+    const id =23
+    axios.get('http://localhost:5000/data/'+id)
+    .then(resposne=>{
+      console.log(resposne)
+      const data = resposne.data
+      this.acheivements = data[0].achievement
+      this.firstname=data[0].artistfirstname
+      this.lastname=data[0].artistlastname
+      this.myprofile=data[0].name
+      this.description=data[0].about
+      this.profilepic=this.getImageUrl(data[0].artistpic)
+      for(let i = 0;i<data.length;i++){
+        this.artistwork.push(this.getImageUrl(data[i].image))
+      }
+      if(this.artistwork.length>=4){
+        for(let i=0;i<4;i++){
+          this.images.push(this.artistwork[i])
+        }
+      }else{
+        this.images=this.artistwork
+      }
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  },
+  methods:{
+    getImageUrl(image){
+        // console.log(image)
+        if(image==null){
+         return require('@/assets/pexels-mohamed-abdelghaffar-771742.jpg')
+        }else{
+        const base64 = window.btoa(
+        new Uint8Array(image.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+       
+        return `data:${image.contentType};base64,${base64}`;
+       }
+    }
+  }
 };
 </script>
 
@@ -215,8 +231,8 @@ export default {
 .wave img {
   border: 5px solid #f8f8f8;
   display: block;
-  width: 300px;
-  height: 375px;
+  width: 250px;
+  height: 300px;
 }
 
 .wave figcaption {

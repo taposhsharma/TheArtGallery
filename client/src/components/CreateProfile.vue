@@ -58,6 +58,7 @@
             this.$router.push({name:"login"})
         }else{
             this.token = user.token
+            console.log(this.token)
       axios.defaults.headers.common["Authorization"] = this.token ;
       
         axios.get("http://localhost:5000/artist/check")
