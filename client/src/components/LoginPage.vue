@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" >
+  <div class="container-fluid mybody" >
    <div class="row">
      <div class="col-3">
       
@@ -211,5 +211,8 @@
   .myfonts{
     font-family: 'Crimson Text', serif;
 
+  }
+  .mybody{
+    
   }
  </style>

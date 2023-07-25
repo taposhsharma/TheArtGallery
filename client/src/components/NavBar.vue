@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #454646;">
+  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #0b2424; font-family: 'Aladin', cursive;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><img src="../assets/theartgallery.jpg" class="float-start"  width="40"   style="border-radius: 50%;" alt="logo"/>    <h3>The Art Gallery</h3></a>
+    <a class="navbar-brand" href="/"><img src="../assets/theartgallery.jpg" class="float-start"  width="40"   style="border-radius: 50%;" alt="logo"/>    <h3>The  Art  Gallery</h3></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -45,6 +45,7 @@ export default{
 }
 </script>
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Aladin&display=swap');
 .container1{
   
   margin-right:20px
@@ -59,5 +60,6 @@ h3{
   align-items: center;
   padding-left:10px;
   padding-top: 4px;
+  font-size: 32px;
 }
 </style>

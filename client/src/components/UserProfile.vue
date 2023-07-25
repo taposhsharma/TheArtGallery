@@ -4,10 +4,10 @@
        <div class="col-3">
         
        </div>
-       <div class="col-6">
+       <div class="col-6 lg mycard">
            <div class="mt-5">
-       <div class="card shadow-lg">
-         <div class="card-body">
+       <div class="card shadow-">
+         <div class="card-body ">
            <div class="text-center"><h3 class="card-title">Your Profile</h3></div>
            <br>
            <form @submit.prevent="submitForm" id="myForm">
@@ -62,7 +62,7 @@
            </select>
          </div>
                </div> -->
-               <div class="col-6"> 
+               <div class="col-8"> 
                    <div class="mb-3">
            <label for="mobile" class="form-label">Mobile Number:</label>
            <input type="tel" v-model="mobileNumber" class="form-control" id="mobile" pattern="[0-9]{10}" required>
@@ -86,7 +86,10 @@
              </button>
            </div> -->
          
-           <button type="submit" class="btn btn-primary">Submit</button>
+           <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-secondary">Update</button>
+</div>
+           
        </form>
          </div>
        </div>
@@ -214,4 +217,7 @@
    
    
    <style scoped>
+   .mycard{
+    margin-top:50px
+   }
    </style>

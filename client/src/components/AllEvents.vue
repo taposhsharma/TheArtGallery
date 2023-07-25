@@ -1,5 +1,5 @@
 <template>
-    <div class="row mybody">
+    <div class="row mybody" style="margin-top: 30px;">
   
      
       <div class="col-12 mysidebar">
@@ -57,16 +57,16 @@
         </div>
         
         <ul class="pagination b-pagination pagination-md justify-content-center pagination1">
-        <li class="page-item">
-          <span class="page-link" @click="prevPage()">Prev</span>
-        </li>
-        <li class="page-item active">
-          <button class="page-link disabled">{{ currentPage }}</button>
-        </li>
-        <li class="page-item">
-          <span class="page-link" @click="nextPage()">Next</span>
-        </li>
-      </ul>
+  <li class="page-item">
+    <button class="page-link btn-dark" @click="prevPage()">Prev</button>
+  </li>
+  <li class="page-item active">
+    <button class="page-link disabled">{{ currentPage }}</button>
+  </li>
+  <li class="page-item">
+    <button class="page-link btn-dark" @click="nextPage()">Next</button>
+  </li>
+</ul>
       </div>
       
     </div>
@@ -120,7 +120,7 @@
               // console.log(this.token)
         axios.defaults.headers.common["Authorization"] = this.token ;
         
-          axios.get(`http://localhost:5000/general/post?limit=${this.perPage}&page=${this.currentPage}`)
+          axios.get(`http://localhost:5000/general/updatemypost?limit=${this.perPage}&page=${this.currentPage}`)
           .then(response=>{
               console.log(response.data)
               this.id=response.data.id
@@ -205,7 +205,7 @@
   
   <style scoped>
   .mybody{
-    background-color: bisque;
+    
     /* width: 100%;
      */
      /* overflow: hidden; */
@@ -329,7 +329,9 @@
     }
     .mycard{
       margin-top:20px;
-      background-color: rgb(227, 240, 236);
+    background-color: rgb(24, 47, 42);
+    color:white;
+    box-shadow: 4px 4px 12px rgba(56, 53, 53, 0.2);
     }
     .pagination1{
       margin-top:20px;
@@ -345,7 +347,7 @@
     }
     li{
       margin-top:20px;
-      margin-left:10px;
+      /* margin-left:10px; */
       
     }
     .newbar{
@@ -359,5 +361,11 @@
     float: right;
     width: 100%;
     }
+
+.btn-dark {
+    background-color: #343a40;
+    color: #fff;
+  }
+
   </style>
   

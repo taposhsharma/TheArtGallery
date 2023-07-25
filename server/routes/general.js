@@ -57,6 +57,49 @@ const upload = multer({dest: "uploads/",
     })
   })
 
+  router.get("/updatemypost",authenticate,async ( req ,res)=>{
+    console.log(req.query)
+    let { limit, page } = req.query;
+    let offset = (page - 1) * limit;
+    console.log(limit)
+    let query =`SELECT
+    post.id as pid,
+    post.caption as pcaption,
+    post.link as plink,
+    post.image as pimage,
+    post.email as pemail,
+    post.phone_no as pnumber,
+    user_info.firstname as fname,
+    user_info.lastnaem as lname,
+    user_info.p_image as userimage
+
+  FROM
+    post
+  JOIN
+    user_info
+  ON
+    post.c_id = user_info.id where user_info.id= ${req.id}  ORDER BY post.id DESC`
+    if(limit && page)
+    {
+      const limitQuery = ` LIMIT ${limit} OFFSET ${offset}`;
+      query += limitQuery;
+    }
+
+
+    await client.query(query,(err,result)=>{
+        if(err){
+            console.log(err)
+        }else{
+          console.log(req.id)
+          const data ={
+            id:req.id,
+            role:req.role,
+            result:result.rows
+          }
+            res.status(200).json(data)
+        }
+    })
+  })
 
   router.get("/profile", async (req,res)=>{
     let { limit, page } = req.query;

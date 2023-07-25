@@ -14,14 +14,14 @@
           <router-link to="/artistpage" class="nav-link "><img class="" :src="isHovered ? hoverImageSrc : originalImageSrc"
     
       alt="Image">
-          <div style="padding-top: 5px"><b>Artists</b></div></router-link>
+          <div style="padding-top: 5px;font-size:20px"><b>Artists</b></div></router-link>
         </li>
         <li class="nav-item "   @mouseover="isHovered1 = true"
       @mouseleave="isHovered1 = false">
           <router-link to="/userprofile" class="nav-link "><img class="" :src="isHovered1 ? hoverImageSrc1 : originalImageSrc1"
     
       alt="Image">
-          <div style="padding-top: 5px"><b>Profile</b></div></router-link>
+          <div style="padding-top: 5px;font-size:20px"><b>Profile</b></div></router-link>
         </li>
 
         <li class="nav-item " v-if="role=='artist'"  @mouseover="isHovered2 = true"
@@ -29,7 +29,7 @@
           <router-link :to="linktoprofile" class="nav-link "><img class="" :src="isHovered2 ? hoverImageSrc2 : originalImageSrc2"
     
       alt="Image" width="60">
-          <div style="padding-top: 5px"><b>Portfolio</b></div></router-link>
+          <div style="padding-top: 5px;font-size:20px"><b>Portfolio</b></div></router-link>
         </li>
 
         <li class="nav-item " v-if="role=='artist'"  @mouseover="isHovered4 = true"
@@ -37,14 +37,14 @@
           <router-link to="/updateprofile" class="nav-link "><img class="" :src="isHovered4 ? hoverImageSrc4 : originalImageSrc4"
     
       alt="Image" width="60">
-          <div style="padding-top: 5px"><b>Update</b></div></router-link>
+          <div style="padding-top: 5px;font-size:20px"><b>Update</b></div></router-link>
         </li>
         <li class="nav-item " v-if="role=='merchant'"  @mouseover="isHovered3 = true"
       @mouseleave="isHovered3 = false">
           <router-link to='/events' class="nav-link "><img class="" :src="isHovered3 ? hoverImageSrc3 : originalImageSrc3"
     
       alt="Image" width="55">
-          <div style="padding-top: 5px; " ><b>Events</b></div></router-link>
+          <div style="padding-top: 5px; font-size:20px" ><b>Events</b></div></router-link>
         </li>
    
         
@@ -72,12 +72,12 @@
             </div>
           </h5>
           <div class="content-div">
-  <div class="limited-content" v-show="!showFullContent" @click="toggleContent">
+  <div class="limited-content" v-show="!showFullContent[id]" @click="toggleContent(id)">
     <p class="card-text">{{ limitedText(data1.pcaption) }}...</p>
 
 
   </div>
-  <div class="full-content" v-show="showFullContent" @click="toggleContent"  >
+  <div class="full-content" v-show="showFullContent[id]" @click="toggleContent(id)">
     <p class="card-text">{{ data1.pcaption }}</p>
 
           <div>
@@ -112,16 +112,16 @@
       </div>
       
       <ul class="pagination b-pagination pagination-md justify-content-center pagination1">
-      <li class="page-item">
-        <span class="page-link" @click="prevPage()">Prev</span>
-      </li>
-      <li class="page-item active">
-        <button class="page-link disabled">{{ currentPage }}</button>
-      </li>
-      <li class="page-item">
-        <span class="page-link" @click="nextPage()">Next</span>
-      </li>
-    </ul>
+  <li class="page-item">
+    <button class="page-link btn-dark" @click="prevPage()">Prev</button>
+  </li>
+  <li class="page-item active">
+    <button class="page-link disabled">{{ currentPage }}</button>
+  </li>
+  <li class="page-item">
+    <button class="page-link btn-dark" @click="nextPage()">Next</button>
+  </li>
+</ul>
     </div>
     
   </div>
@@ -160,14 +160,8 @@ export default {
       perPage:10,
       data:[],
      
-          email: "taposh@gmail.com",
-      number: "7017676564",
       maxWords:25,
-      link: "https://www.google.com/",
-      email1: "mailto:taposh@gmail.com",
-      image: require("../assets/logo.png"),
-      showFullContent:false
-      // bgimage: { backgroundImage: require("./assets/tree420.jpg") }
+      showFullContent:[]     // bgimage: { backgroundImage: require("./assets/tree420.jpg") }
     };
   },
 
@@ -187,6 +181,10 @@ export default {
             this.role = response.data.role
             this.linktoprofile="/artistprofile/"+this.id
             this.data = response.data.result
+            for(let i =0 ;i<this.data.length;i++){
+              this.showFullContent.push(false)
+            }
+          
             console.log(this.data)
          
         })
@@ -216,8 +214,8 @@ export default {
           console.log(error);
         });
     },
-    toggleContent() {
-      this.showFullContent = !this.showFullContent;
+    toggleContent(i) {
+      this.showFullContent[i] = !this.showFullContent[i];
     },
     getImageUrl(image){
         // console.log(image)
@@ -262,19 +260,21 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Aladin&display=swap');
 .mybody{
-  background-color: bisque;
-  /* width: 100%;
-   */
-   /* overflow: hidden; */
-
+  background-image: url("../assets/nw.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Aladin', cursive;
 }
+
+
 
 .title {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-size: 24px;
+  font-size: 30px;
   padding: 10px;
 }
 
@@ -342,6 +342,14 @@ export default {
   /* width: auto;
   height: auto; */
 }
+.btn-dark {
+    background-color: #343a40;
+    color: #fff;
+  }
+
+  .btn-dark:hover {
+    background-color: #23272b;
+  }
 .imgdiv {
     margin-top:10px;
   border: 1px solid black;
@@ -368,7 +376,7 @@ export default {
  
 }
 .content-div {
- 
+ font-size:20px
 }
 
 .limited-content {
@@ -387,7 +395,9 @@ export default {
   }
   .mycard{
     margin-top:20px;
-    background-color: rgb(227, 240, 236);
+    background-color: rgb(24, 47, 42);
+    color:white;
+    box-shadow: 4px 4px 12px rgba(56, 53, 53, 0.2);
   }
   .pagination1{
     margin-top:20px;
@@ -399,6 +409,13 @@ export default {
     /* width:100% */
     /* left: 10px; */
   }
+  ::-webkit-scrollbar {
+  width: 1.1rem;
+}
+::-webkit-scrollbar-thumb {
+  background: #818A8F;
+  border-radius: 17px;
+}
   .mybar{
     display: flex;
     justify-content: center;
