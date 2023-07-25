@@ -3,7 +3,7 @@ require('dotenv').config()
 
 function authenticate(req, res, next) {
   const token = req.headers.authorization;
-  console.log(req.headers)
+  // console.log(req.headers)
   if (!token) {
     return res.status(401).send('Unauthorized: No token provided');
   }
@@ -14,6 +14,8 @@ function authenticate(req, res, next) {
       return res.status(401).send('Unauthorized: Invalid token');
     }
     req.id = decoded.id;
+    req.role = decoded.role;
+    
     next();
   });
 }

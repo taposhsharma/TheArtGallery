@@ -12,8 +12,9 @@
         <br>
         <form @submit.prevent="submitForm" id="myForm">
         <div class="row">
+          
             <div class="col-8"> 
-                
+              
       <div class="mb-3">
         <label for="firstName" class="form-label">First Name:</label>
         <input type="text" v-model="firstName" class="form-control" id="firstName" required>
@@ -27,7 +28,7 @@
       <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
         <input type="email" v-model="email" class="form-control" id="email" required>
-       
+        <div> <p style="color: red; font-size: 12px;margin-left: 10px;"> {{ this.mess }}</p></div>  
       </div>
      
    
@@ -114,7 +115,8 @@ import axios from 'axios';
       address: '',
       password: '',
       passwordFieldType: 'password',
-      image:[]
+      image:[],
+      mess:''
      
     };
   },
@@ -166,9 +168,12 @@ import axios from 'axios';
   .then(response => {
 
    console.log(response.mess)
+   alert("Account Created Successfully.")
+   this.$router.push({name:"login"})
   })
   .catch(error => {
     console.error(error.response.data.mess);
+    this.mess = error.response.data.mess
   });
         console.log(data)
      

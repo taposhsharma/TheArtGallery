@@ -75,6 +75,10 @@
           </div>
         </div>
       </div>
+      <button @click="explore">Explore</button>
+    </div>
+    <div class="row">
+      <button @click="connectToArtist">Connect</button>
     </div>
   </div>
 </template>
@@ -85,6 +89,7 @@ export default {
   name: "ArtistProfile",
   data() {
     return {
+      id:null,
       firstname:'',
       lastname:'',
       myprofile:'',
@@ -100,11 +105,20 @@ export default {
     };
   },
   created(){
-    const id =23
+    const id = this.$route.params.id;
+    this.id= id
+    const user = JSON.parse(localStorage.getItem("user"));
+        if(user===null){
+            this.$router.push({name:"login"})
+        }else{
+            this.token = user.token
+            // console.log(this.token)
+      axios.defaults.headers.common["Authorization"] = this.token ;
     axios.get('http://localhost:5000/data/'+id)
     .then(resposne=>{
       console.log(resposne)
       const data = resposne.data
+      if(resposne.data.length>0){
       this.acheivements = data[0].achievement
       this.firstname=data[0].artistfirstname
       this.lastname=data[0].artistlastname
@@ -121,10 +135,14 @@ export default {
       }else{
         this.images=this.artistwork
       }
+    }else{
+      this.$router.push({name:"createprofile"})
+    }
     })
     .catch(err=>{
       console.log(err)
     })
+  }
   },
   methods:{
     getImageUrl(image){
@@ -141,8 +159,31 @@ export default {
        
         return `data:${image.contentType};base64,${base64}`;
        }
+    },
+    explore(){
+    console.log(this.id)
+      this.$router.push({name:"AllWork", params:{id:this.id}})
+    },
+    connectToArtist(){
+   
+    const user = JSON.parse(localStorage.getItem("user"));
+        if(user===null){
+            this.$router.push({name:"login"})
+        }else{
+            this.token = user.token
+            // console.log(this.token)
+      axios.defaults.headers.common["Authorization"] = this.token ;
+    axios.post('http://localhost:5000/connect',{id:this.id})
+    .then(resposne=>{
+      console.log(resposne)
+    
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     }
   }
+}
 };
 </script>
 
