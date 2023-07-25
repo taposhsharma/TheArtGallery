@@ -8,7 +8,7 @@
            <div class="mt-5">
        <div class="card shadow-lg">
          <div class="card-body">
-           <div class="text-center"><h3 class="card-title">SignUp</h3></div>
+           <div class="text-center"><h3 class="card-title">Your Profile</h3></div>
            <br>
            <form @submit.prevent="submitForm" id="myForm">
            <div class="row">
@@ -51,7 +51,7 @@
    
            </div>
            <div class="row">
-               <div class="col-6">
+               <!-- <div class="col-6">
                    <div class="mb-3">
            <label for="role" class="form-label">Profile:</label>
            <select v-model="selectedRole" class="form-select" id="role" required>
@@ -61,7 +61,7 @@
              <option value="merchant">Merchant</option>
            </select>
          </div>
-               </div>
+               </div> -->
                <div class="col-6"> 
                    <div class="mb-3">
            <label for="mobile" class="form-label">Mobile Number:</label>
@@ -77,14 +77,14 @@
            <textarea v-model="address" class="form-control" id="address" required></textarea>
           
          </div>
-         <label for="password" class="form-label">Password:</label>
+         <!-- <label for="password" class="form-label">Password:</label>
          <div class="input-group">
            
              <input :type="passwordFieldType" v-model="password" class="form-control" id="password" minlength="6" required>
              <button type="button" class="btn btn-outline-secondary " @click="togglePasswordVisibility">
                <i :class="passwordFieldType === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
              </button>
-           </div>
+           </div> -->
          
            <button type="submit" class="btn btn-primary">Submit</button>
        </form>
@@ -130,12 +130,20 @@
            axios.get("http://localhost:5000/user")
            .then(response=>{
                console.log(response.data)
+
+
+               this.firstName=response.data[0].firstname 
+               this.lastName = response.data[0].lastnaem 
+               this.email = response.data[0].email
+               this.mobileNumber = response.data[0].mobile_no
+               this.selectedImage = this.getImageUrl(response.data[0].p_image)
+               this.address = response.data[0].address
+
             
            })
            .catch(err=>{
              
-               console.log(err.response.data)
-              
+               console.log(err)             
            })
        }
        },
@@ -145,7 +153,7 @@
                firstName: this.firstName,
                lastName: this.lastName,
                email: this.email,
-               role: this.selectedRole,
+              //  role: this.selectedRole,
                mobile_no: this.mobileNumber,
                address: this.address,
                password: this.password
@@ -156,13 +164,13 @@
            formData.append("images[]", this.image[i]);
          }
          formData.append("info", JSON.stringify(data));
-            axios.post('http://localhost:5000/signup',formData)
+            axios.post('http://localhost:5000/update',formData)
      .then(response => {
    
-      console.log(response.mess)
+      console.log(response)
      })
      .catch(error => {
-       console.error(error.response.data.mess);
+       console.error(error);
      });
            console.log(data)
         
@@ -178,7 +186,21 @@
        togglePasswordVisibility() {
          this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
        }
+       , getImageUrl(image){
+        // console.log(image)
+        if(image==null){
+         return require('@/assets/pexels-mohamed-abdelghaffar-771742.jpg')
+        }else{
+        const base64 = window.btoa(
+        new Uint8Array(image.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
        
+        return `data:${image.contentType};base64,${base64}`;
+       }
+    },
    
      },
       

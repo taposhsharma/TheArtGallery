@@ -1,10 +1,10 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" >
    <div class="row">
      <div class="col-3">
       
      </div>
-     <div class="col-6">
+     <div class="col-6" >
       <div class= "row g-0 rounded login">
         <div class="col-6"> 
           <div id="carouselExampleControls"  class="carousel slide rounded" data-bs-ride="carousel">
@@ -44,7 +44,7 @@
        <div class="mb-3">
          <label for="email" class="form-label">Email:</label>
          <input type="email" v-model="email" class="form-control" id="email" required>
-        
+         <div> <p class="myfonts" style="color: red; font-size: 14px;margin-left: 10px;"> {{ this.mess1 }}</p></div>  
        </div>
         
        <label for="password" class="form-label">Password:</label>
@@ -54,17 +54,20 @@
            <button type="button" class="btn btn-outline-secondary " @click="togglePasswordVisibility">
              <i :class="passwordFieldType === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
            </button>
+           
+            
          </div>
+         <div> <p class="myfonts" style="color: red; font-size: 14px;margin-left: 10px;"> {{ this.mess2 }}</p></div> 
       
     
              </div>
         
  
          </div>
-         <br>
+        
          <div class="d-grid gap-2">
 
-  <button type="submit" class="btn btn-primary">Login</button>
+  <button type="submit" class="btn btn-secondary">Login</button>
 </div>
         
       
@@ -99,7 +102,8 @@
       
        password: '',
        passwordFieldType: 'password',
-      
+       mess1:'',
+       mess2:''      
       
      };
    },
@@ -115,10 +119,10 @@
       
         axios.get("http://localhost:5000/check")
         .then(response=>{
-            console.log(response.data)
+            // console.log(response.data)
           
             if(response.data !=="authorized"){
-                console.log("hii")
+                // console.log("hii")
                 
             }else{
               this.$router.push({name:"home"})
@@ -127,6 +131,7 @@
         .catch(err=>{
            
             console.log(err.response.data)
+          
            
         })
     }
@@ -137,6 +142,8 @@
              email:this.email,
              password:this.password 
          }
+         this.mess1=''
+         this.mess2=''
          
           axios.post('http://localhost:5000/login',data)
    .then(response => {
@@ -144,11 +151,11 @@
     console.log(response);
     if(response.data.user===0){
       console.log("user not exists")
-     this.mess= "User Doesn't Exist"
+     this.mess1= "User Doesn't Exist"
     }
     else if(response.data.user===1){
       console.log("password wrong")
-      this.mess ="Password Incorrect"
+      this.mess2 ="Password Incorrect"
     }
     else{
       console.log('hello')
@@ -184,10 +191,12 @@
  
  <style scoped>
  @import url("https://fonts.googleapis.com/css?family=Audiowide");
+ @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,600;1,600&family=Roboto:wght@100&display=swap');
   .login{
-    margin-top: 50px;
+    margin-top: 100px;
     border: 3px solid #ded5d5;
     box-shadow: 4px 4px 12px rgba(56, 53, 53, 0.2);
+    
    
   }
   .image{
@@ -198,5 +207,9 @@
     margin:50px;
     padding-top:60px;
     font-family: "Audiowide", sans-serif;
+  }
+  .myfonts{
+    font-family: 'Crimson Text', serif;
+
   }
  </style>

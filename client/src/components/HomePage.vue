@@ -1,32 +1,93 @@
 <template>
-  <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
-      <div class="card">
+  <div class="row mybody">
+    <div class="col-1">
+    
+       <div class="row">
+        <div class="col-10  newbar ">  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mybar" style="  min-height: 94.3vh;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mybar" id="navbarNav">
+      <ul class="navbar-nav flex-column">
+        <li class="nav-item "   @mouseover="isHovered = true"
+      @mouseleave="isHovered = false">
+          <router-link to="/artistpage" class="nav-link "><img class="" :src="isHovered ? hoverImageSrc : originalImageSrc"
+    
+      alt="Image">
+          <div style="padding-top: 5px"><b>Artists</b></div></router-link>
+        </li>
+        <li class="nav-item "   @mouseover="isHovered1 = true"
+      @mouseleave="isHovered1 = false">
+          <router-link to="/userprofile" class="nav-link "><img class="" :src="isHovered1 ? hoverImageSrc1 : originalImageSrc1"
+    
+      alt="Image">
+          <div style="padding-top: 5px"><b>Profile</b></div></router-link>
+        </li>
+
+        <li class="nav-item " v-if="role=='artist'"  @mouseover="isHovered2 = true"
+      @mouseleave="isHovered2 = false">
+          <router-link :to="linktoprofile" class="nav-link "><img class="" :src="isHovered2 ? hoverImageSrc2 : originalImageSrc2"
+    
+      alt="Image" width="60">
+          <div style="padding-top: 5px"><b>Portfolio</b></div></router-link>
+        </li>
+
+        <li class="nav-item " v-if="role=='artist'"  @mouseover="isHovered4 = true"
+      @mouseleave="isHovered4 = false">
+          <router-link to="/updateprofile" class="nav-link "><img class="" :src="isHovered4 ? hoverImageSrc4 : originalImageSrc4"
+    
+      alt="Image" width="60">
+          <div style="padding-top: 5px"><b>Update</b></div></router-link>
+        </li>
+        <li class="nav-item " v-if="role=='merchant'"  @mouseover="isHovered3 = true"
+      @mouseleave="isHovered3 = false">
+          <router-link to='/events' class="nav-link "><img class="" :src="isHovered3 ? hoverImageSrc3 : originalImageSrc3"
+    
+      alt="Image" width="55">
+          <div style="padding-top: 5px; " ><b>Events</b></div></router-link>
+        </li>
+   
+        
+       
+        <!-- Add more items as needed -->
+      </ul>
+    </div>
+  </nav></div>
+       </div>
+   
+    </div>
+   
+    <div class="col-11 mysidebar">
+      <div class="row" style="margin-top: 30px;">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <div v-for="(data1,id) in data" :key="id">
+      <div class="card mycard">
         <div class="card-body">
-          <h5 class="card-title">
+          
+            <h5 class="card-title">
             <div class="ArtName">
-              <img class="image" :src="ProfileImg" alt="Image" />
-              <div class="title">{{ Name }}</div>
+              <img class="image" :src="this.getImageUrl(data1.userimage)" alt="Image" />
+              <div class="title">{{ data1.fname }}  {{ data1.lname }}</div>
             </div>
           </h5>
           <div class="content-div">
   <div class="limited-content" v-show="!showFullContent" @click="toggleContent">
-    <p class="card-text">{{ limitedText }}...</p>
+    <p class="card-text">{{ limitedText(data1.pcaption) }}...</p>
 
 
   </div>
   <div class="full-content" v-show="showFullContent" @click="toggleContent"  >
-    <p class="card-text">{{ Paragraph1 }}</p>
+    <p class="card-text">{{ data1.pcaption }}</p>
 
           <div>
             <h6>Contact details:</h6>
-            Email: <a :href="email1">{{ email }}</a
+            Email: <a :href="getemail(data1.pemail)">{{ data1.pemail }}</a
             ><br />
-            Mobile no: {{ number }}<br />
+            Mobile no: {{ data1.pnumber }}<br />
             Link:
-            <a :href="link" target="_blank" rel="noopener noreferrer">{{
-              link
+            <a :href="data1.plink" target="_blank" rel="noopener noreferrer">{{
+              data1.plink
             }}</a>
           </div>
   </div>
@@ -34,16 +95,35 @@
 </div>
 
         
-          <div class="imgdiv">
+<div class="imgdiv">
             <img
               class="image1"
-              src="https://images.unsplash.com/photo-1531564701487-f238224b7ce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9zdHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"
+              :src="this.getImageUrl(data1.pimage)"
               alt="event image"
             />
           </div>
+          </div>
+        
+     
+
         </div>
       </div>
+        </div>
+      </div>
+      
+      <ul class="pagination b-pagination pagination-md justify-content-center pagination1">
+      <li class="page-item">
+        <span class="page-link" @click="prevPage()">Prev</span>
+      </li>
+      <li class="page-item active">
+        <button class="page-link disabled">{{ currentPage }}</button>
+      </li>
+      <li class="page-item">
+        <span class="page-link" @click="nextPage()">Next</span>
+      </li>
+    </ul>
     </div>
+    
   </div>
 </template>
 <script>
@@ -54,11 +134,33 @@ export default {
 
   data() {
     return {
-      Name: "Art Name",
-      ProfileImg: require("../assets/pexels-mohamed-abdelghaffar-771742.jpg"),
-      Paragraph1:
-        "In the second part of the program we have created a method and the method also has an object.Here we create a Msgmethod which returns a string. Inside the method, we access data object property by using this and finally we added in the template tag. Illustrate the end result of the above declaration by using the use of the following snapshot.",
-      email: "taposh@gmail.com",
+      id:null,
+      role:null,
+      linktoprofile:'',
+      hoverImageSrc: require('../assets/artist.png'),
+      originalImageSrc: require('../assets/painter.png'),
+      isHovered: false,
+      hoverImageSrc1: require('../assets/user (1).png'),
+      originalImageSrc1: require('../assets/user.png'),
+      isHovered1: false,
+
+      hoverImageSrc2: require('../assets/portfolio (1).png'),
+      originalImageSrc2: require('../assets/portfolio.png'),
+      isHovered2: false,
+
+      hoverImageSrc3: require('../assets/calendar (1).png'),
+      originalImageSrc3: require('../assets/calendar.png'),
+      isHovered3: false,
+
+
+      hoverImageSrc4: require('../assets/updated (1).png'),
+      originalImageSrc4: require('../assets/updated.png'),
+      isHovered4: false,
+      currentPage:1,
+      perPage:10,
+      data:[],
+     
+          email: "taposh@gmail.com",
       number: "7017676564",
       maxWords:25,
       link: "https://www.google.com/",
@@ -78,14 +180,15 @@ export default {
             // console.log(this.token)
       axios.defaults.headers.common["Authorization"] = this.token ;
       
-        axios.get("http://localhost:5000/check")
+        axios.get(`http://localhost:5000/general/post?limit=${this.perPage}&page=${this.currentPage}`)
         .then(response=>{
             console.log(response.data)
-            
-            if(response.data !=="authorized"){
-                console.log("hii")
-                
-            }
+            this.id=response.data.id
+            this.role = response.data.role
+            this.linktoprofile="/artistprofile/"+this.id
+            this.data = response.data.result
+            console.log(this.data)
+         
         })
         .catch(err=>{
           this.$router.push({name:"login"})
@@ -95,20 +198,78 @@ export default {
     }
     },
   methods: {
+    callData() {
+      const url = `http://localhost:5000/general/post?limit=${this.perPage}&page=${this.currentPage}`;
+      axios
+        .get(url)
+        .then((response) => {
+          console.log(response.data);
+         
+          if(response.data.result.length==0){
+            console.log('hello')
+            this.prevPage()
+          }
+          this.data = response.data.result
+          
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     toggleContent() {
       this.showFullContent = !this.showFullContent;
-    }
-  },
-  computed:{
-    limitedText() {
-      const words = this.Paragraph1.split(' ');
+    },
+    getImageUrl(image){
+        // console.log(image)
+        if(image==null){
+         return require('@/assets/pexels-mohamed-abdelghaffar-771742.jpg')
+        }else{
+        const base64 = window.btoa(
+        new Uint8Array(image.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+      );
+       
+        return `data:${image.contentType};base64,${base64}`;
+       }
+    },
+    limitedText(data1) {
+      console.log(data1)
+      const words = data1.split(' ');
       return words.slice(0, this.maxWords).join(' ');
     },
+    getemail(email){
+      return "mailto:"+email
+    },
+    prevPage() {
+      if (this.currentPage !== 1) {
+        this.currentPage--;
+        this.callData();
+      }
+    },
+    nextPage() {
+      this.currentPage++;
+      this.callData();
+    },
+  
+  },
+  
+  computed:{
+   
   }
 };
 </script>
 
 <style scoped>
+.mybody{
+  background-color: bisque;
+  /* width: 100%;
+   */
+   /* overflow: hidden; */
+
+}
+
 .title {
   display: flex;
   flex-direction: row;
@@ -223,5 +384,34 @@ export default {
   .button1{
     display: flex;
     justify-content: right;
+  }
+  .mycard{
+    margin-top:20px;
+    background-color: rgb(227, 240, 236);
+  }
+  .pagination1{
+    margin-top:20px;
+    margin-bottom:20px
+  }
+  .mysidebar{
+  overflow: auto;
+  height:94.3vh
+    /* width:100% */
+    /* left: 10px; */
+  }
+  .mybar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    
+  }
+  li{
+    margin-top:20px;
+    /* margin-left:10px; */
+    
+  }
+  .newbar{
+  
   }
 </style>

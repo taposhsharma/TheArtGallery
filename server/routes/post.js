@@ -5,7 +5,7 @@ const client = require('../connection/db')
 const multer = require('multer');
 const fs = require('fs');
 require('dotenv').config();
-const authenticate = require('../verifyToken')
+const authenticate = require('../merchantTokenVerification.js')
 router.use(authenticate)
 const upload = multer({dest: "uploads/",
     limits: {

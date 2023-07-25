@@ -51,7 +51,7 @@
       };
     },
     created(){
-        this.id = 1
+      this.id = this.$route.params.id;
         const user = JSON.parse(localStorage.getItem("user"));
         if(user===null){
             this.$router.push({name:"login"})

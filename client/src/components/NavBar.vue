@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #454646;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><img src="../assets/theartgallery.jpg" class="float-start"  width="30"   style="border-radius: 50%;" alt="logo"/>   &nbsp; The Art Gallery</a>
+    <a class="navbar-brand" href="/"><img src="../assets/theartgallery.jpg" class="float-start"  width="40"   style="border-radius: 50%;" alt="logo"/>    <h3>The Art Gallery</h3></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,9 +10,8 @@
       <button  class="btn btn-sm btn-outline-light float-end mybutton" v-if="!this.$store.state.loggedIn" @click="login">Login</button>
      
       <button  class="btn btn-sm btn-outline-light float-end mybutton" v-if="!this.$store.state.loggedIn" @click="signup">Sign Up</button>
-      <button  class="btn btn-sm btn-outline-light float-end mybutton" v-if="this.$store.state.loggedIn" @click="logout">logout</button>
-      <button  class="btn btn-sm btn-outline-light float-end mybutton" v-if="this.$store.state.loggedIn" @click="profile">Profile</button>
- </div> 
+      <button  class="btn btn-sm btn-outline-light float-end mybutton" v-if="this.$store.state.loggedIn" @click="logout">Logout</button>
+       </div> 
   </div>
 </nav>
   
@@ -53,5 +52,12 @@ export default{
 .mybutton{
   margin-right:10px;
   width:100px;
+}
+h3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left:10px;
+  padding-top: 4px;
 }
 </style>
