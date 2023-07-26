@@ -171,6 +171,8 @@
      .then(response => {
    
       console.log(response)
+      alert('Profile Updated Successfully')
+      this.$router.push({name:"home"})
      })
      .catch(error => {
        console.error(error);

@@ -71,16 +71,83 @@
       <div v-for="(image, i) in images" :key="i" class="col-3">
         <div class="content">
           <div class="row g-0">
-            <img class="dummy" :src="image" />
+            <div class="imgdiv">
+            <img
+              class="image1 dummy"
+              :src="image"
+              alt="event image"
+            />
+          </div>
+            <!-- <img class="dummy" :src="image" /> -->
           </div>
         </div>
       </div>
-      <button @click="explore">Explore</button>
+      <div class="row" style="margin-top: 20px;display: flex;flex-direction: row-reverse; "> 
+        <div class="col-2" >
+          <p class="explore" @click="explore" >Explore  >></p>
+        
+      </div>
+      
     </div>
-    <div class="row">
-      <button @click="connectToArtist">Connect</button>
+   
+  </div>
+  </div>
+<div class="container-fluid connect" v-if="user==0">
+  <div class="row ">
+    <div class="col work">
+      <h1>
+      Wants to Conenct ?
+          </h1>
+
+       
+    </div>
+    
+    </div>
+    <div class="row" > 
+      <div class="col newconnect">
+      
+
+  <p style="font-size: 18px;">
+              Your email and number will be shared with the Artist once you click on connect
+              
+            </p>
+</div>
+<div class="newconnect" style="margin-bottom: 50px;width: 100%;"> 
+  <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to share your information?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="connectToArtist">Yes</button>
+      </div>
     </div>
   </div>
+</div>
+  <div class="d-grid gap-2 col-2  mx-auto">
+    <button type="button" class="btn btn-outline-dark"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Connect
+</button>
+  
+           
+</div>
+    </div>
+          
+          </div>
+      
+  
+</div>
+  
 </template>
 
 <script>
@@ -89,6 +156,7 @@ export default {
   name: "ArtistProfile",
   data() {
     return {
+      user:0,
       id:null,
       firstname:'',
       lastname:'',
@@ -116,9 +184,10 @@ export default {
       axios.defaults.headers.common["Authorization"] = this.token ;
     axios.get('http://localhost:5000/data/'+id)
     .then(resposne=>{
-      console.log(resposne)
-      const data = resposne.data
-      if(resposne.data.length>0){
+      console.log(resposne.data.res[0])
+      const data = resposne.data.res
+      this.user = resposne.data.user
+      if(data.length>0){
       this.acheivements = data[0].achievement
       this.firstname=data[0].artistfirstname
       this.lastname=data[0].artistlastname
@@ -176,6 +245,7 @@ export default {
     axios.post('http://localhost:5000/connect',{id:this.id})
     .then(resposne=>{
       console.log(resposne)
+      alert("Details sent Successfully.")
     
     })
     .catch(err=>{
@@ -187,7 +257,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,600;1,600&display=swap");
 
 .workContainer {
@@ -203,7 +273,10 @@ export default {
   justify-content: center;
   padding-bottom: 50px;
 }
-
+.newconnect{
+  display: flex;
+  justify-content: center; 
+}
 .content {
   margin-left: 10px;
   margin-right: 10px;
@@ -309,8 +382,8 @@ export default {
 
 .dummy {
   /* border: 5px black; */
-
-  border: 10px solid whitesmoke;
+  border-radius: 20px;
+  border: 5px solid whitesmoke;
   transition: 50ms ease-in;
   width: 90%;
 
@@ -318,9 +391,9 @@ export default {
 }
 .dummy:hover {
   transition: 750ms ease-in;
-  border-radius: 0;
+  border-radius: 20px;
   border: none;
-  width:100%;
+  width:95%;
 
   /* z-index: 2; */
   /* box-shadow: 0px -2px 92px 24px rgba(0, 0, 0, 0.38);
@@ -338,5 +411,40 @@ export default {
   100% {
     transform: rotate(-10deg);
   }
+}
+.imgdiv {
+    margin-top:10px;
+ border-radius: 20px;
+  background-color: whitesmoke;
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+  /* margin-left: 0px;
+    margin-right: 0px; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  /* overflow:  ; */
+}
+
+.image1 {
+    max-width: 100%;
+  max-height: 100%;
+  /* width: auto;
+  height: auto; */
+}
+.explore{
+  cursor: pointer; font-size: 28px; color: white;
+}
+.explore:hover{
+  transition: 750ms ease-in;
+  
+  color: rgb(4, 29, 9);
+}
+.connect{
+  padding-top:50px;
+  background-color: rgb(218, 215, 211);
 }
 </style>

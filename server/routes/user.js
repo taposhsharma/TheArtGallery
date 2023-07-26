@@ -122,8 +122,13 @@ router.get("/display",(req,res)=>{
     }
 })
 
-router.get("/data/:id", async (req,res)=>{
+router.get("/data/:id",authenticate, async (req,res)=>{
+  const user_id = req.id
+  let user =0
   const id = req.params.id
+  if(user_id==id){
+     user =1
+  }
   const query = ` SELECT
   ap.*,
   ap.artistid AS artistId,
@@ -148,7 +153,11 @@ WHERE
       console.log(err)
     }else{
       //console.log(results.rows)
-      res.status(200).send(results.rows)
+      const data={
+        user:user,
+        res:results.rows
+      }
+      res.status(200).send(data)
     }
    })
 })
@@ -196,7 +205,7 @@ router.post('/update' ,authenticate, upload.array("images[]"), async (req,res)=>
 router.post("/connect",authenticate,async(req,res)=>{
   console.log(req.body)
   console.log(req.id)
-  const query = `SELECT firtsname,lastnaem, email,mobile_no from user_info where id = ${req.id}`
+  const query = `SELECT firstname,lastnaem, email,mobile_no from user_info where id = ${req.id}`
   client.query(query,(err,results)=>{
     if(err){
       console.log(err)

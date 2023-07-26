@@ -73,12 +73,12 @@
           </h5>
           <div class="content-div">
   <div class="limited-content" v-show="!showFullContent[id]" @click="toggleContent(id)">
-    <p class="card-text">{{ limitedText(data1.pcaption) }}...</p>
+    <p class="card-text" style="  text-align: justify;">{{ limitedText(data1.pcaption) }}...</p>
 
 
   </div>
   <div class="full-content" v-show="showFullContent[id]" @click="toggleContent(id)">
-    <p class="card-text">{{ data1.pcaption }}</p>
+    <p class="card-text" style="  text-align: justify;">{{ data1.pcaption }}</p>
 
           <div>
             <h6>Contact details:</h6>
