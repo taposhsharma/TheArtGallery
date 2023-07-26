@@ -1,18 +1,20 @@
 <template>
-  <h1>Artist Profiles</h1>
+  <div class="container-fluid" style="margin-top: 50px;">
+  <h1 style="text-align: center; margin-bottom: 50px;">Artist Profiles</h1>
   <div class="container-fluid">
-      <div class="row">
+      <div class="row" style="margin-bottom: 20px;">
         <!-- Artist Profiles will be rendered here -->
-        <div class="col-12 col-md-3" v-for="artist in artists" :key="artist.id">
+        <div class="col-12 col-md-3" v-for="artist in artists" :key="artist.id" style="margin-bottom: 20px; cursor: pointer;">
             
           <div class="text-center" @click="artistprofile(artist.id)">
             <img :src="getImageUrl(artist.image)" class="profile-image" alt="Artist Profile Image" >
-            <h4>{{ artist.firstname}} {{ artist.lastname}}</h4>
+            <h4 style="margin-top: 10px;">{{ artist.firstname}} {{ artist.lastname}}</h4>
             <p>{{ artist.profile }}</p>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

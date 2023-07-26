@@ -12,9 +12,11 @@ import UserProfile from "./components/UserProfile";
 import ArtistPage from "./components/ArtistPage";
 import EventManager from "./components/EventManager";
 import AllEvents from "./components/AllEvents"
+import NotFound from './components/NotFound.vue';
 import AllWork from "./components/AllWork"
 
 const routes = [
+
   { path: "/", name: "home", component: HomePage },
   { path: "/login", name: "login", component: LoginPage },
   { path: "/signup", name: "signup", component: SignupPage },
@@ -69,7 +71,11 @@ const routes = [
     name:'AllWork',
     component:AllWork,
     props: true,
-  }
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: NotFound,
+  },
 ];
 
 const router = createRouter({

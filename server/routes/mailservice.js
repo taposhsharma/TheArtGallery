@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 
 function createTableHtml(data) {
-    let tableHtml = `<p>Email: ${data.email}</p><br>
+    let tableHtml = `<p>Email: ${data.email}</p>
     <p>
     Mobile No: ${data.mobile_no}</p>`
 

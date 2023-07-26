@@ -83,6 +83,7 @@ router.post("/updateprofile",upload.array('images'),async (req,res)=>{
   const query ='update artist_profile set name = $1 ,about=$2,achievement =$3 where artistId =$4 returning id'
   const updatedValues = [name, about, achievements,req.id]
   const results = await client.query(query,updatedValues)
+  console.log(files)
   if(results.rows.length>0){
     for(let i=0;i<files.length;i++){
       if(files[i].originalname=='no-image.txt'){
@@ -98,6 +99,7 @@ router.post("/updateprofile",upload.array('images'),async (req,res)=>{
       }else{
         const file = files[i];
         const imageBuffer = fs.readFileSync(file.path);
+        console.log(image_id[i])
         if(image_id[i]==0){
           const insertWorkQuery = 'INSERT INTO work (name, description, artistId, image) VALUES ($1, $2, $3, $4)';
           const workValues = [imageNames[i], aboutImages[i], req.id, imageBuffer];

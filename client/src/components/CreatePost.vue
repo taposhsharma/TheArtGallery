@@ -85,7 +85,17 @@
         if(user===null){
             this.$router.push({name:"login"})
         }else{
+           
             this.token = user.token
+            axios.defaults.headers.common["Authorization"] = this.token ;
+            axios.get("http://localhost:5000/post/check")
+            .then(response=>{
+              console.log(response)   
+                   })
+            .catch(err=>{
+                console.log(err)
+                this.$router.push({name:'home'})
+            })
      
         }
     },
