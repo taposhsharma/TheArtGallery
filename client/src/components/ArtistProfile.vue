@@ -9,8 +9,7 @@
               <h3>{{ myprofile }}</h3>
             </div>
             <div class="description">
-              <p>
-                
+              <p style="text-align: justify;font-size: 20px;">
                 {{ description }}
               </p>
             </div>
@@ -19,10 +18,7 @@
         <div class="col-md-6">
           <div class="image-container">
             <figure class="wave">
-              <img
-                :src="profilepic"
-                alt="profile"
-              />
+              <img :src="profilepic" alt="profile" />
             </figure>
           </div>
         </div>
@@ -34,7 +30,7 @@
       <div class="col acheivements">
         <div>
           <h1>
-            <img src="../assets/acheivement.png" alt="" height="40" />
+            <img src="../assets/acheivement.png" alt="" height="60" />
             Acheivements
           </h1>
         </div>
@@ -47,8 +43,8 @@
             <div class="col-1" style="display: flex; justify-content: center">
               <i class="bi-disc-fill"></i>
             </div>
-            <div class="col-11">
-              <p>{{ acheivement}}</p>
+            <div class="col-11" style="text-align: justify">
+              <p>{{ acheivement }}</p>
             </div>
           </div>
         </div>
@@ -60,7 +56,7 @@
       <div class="col work">
         <div>
           <h1>
-            <img src="../assets/creative-process.png" alt="" height="40" /> Best
+            <img src="../assets/creative-process.png" alt="" height="60" /> Best
             Work
           </h1>
         </div>
@@ -72,194 +68,209 @@
         <div class="content">
           <div class="row g-0">
             <div class="imgdiv">
-            <img
-              class="image1 dummy"
-              :src="image"
-              alt="event image"
-            />
-          </div>
+              <img class="image1 dummy" :src="image" alt="event image" />
+            </div>
             <!-- <img class="dummy" :src="image" /> -->
           </div>
         </div>
       </div>
-      <div class="row" style="margin-top: 20px;display: flex;flex-direction: row-reverse; "> 
-        <div class="col-2" >
-          <p class="explore" @click="explore" >Explore  >></p>
-        
+      <div
+        class="row"
+        style="margin-top: 20px; display: flex; flex-direction: row-reverse"
+      >
+        <div class="col-2">
+          <p class="explore" @click="explore">Explore >></p>
+        </div>
       </div>
-      
     </div>
-   
   </div>
-  </div>
-<div class="container-fluid connect" v-if="user==0">
-  <div class="row ">
-    <div class="col work">
-      <h1>
-      Wants to Conenct ?
-          </h1>
-
-       
+  <div class="container-fluid connect" v-if="user == 0">
+    <div class="row">
+      <div class="col work">
+        <h1>Wants to Conenct ?</h1>
+      </div>
     </div>
-    
-    </div>
-    <div class="row" > 
+    <div class="row">
       <div class="col newconnect">
-      
-
-  <p style="font-size: 18px;">
-              Your email and number will be shared with the Artist once you click on connect
-              
-            </p>
-</div>
-<div class="newconnect" style="margin-bottom: 50px;width: 100%;"> 
-  <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <p style="font-size: 18px">
+          Your email and number will be shared with the Artist once you click on
+          connect
+        </p>
       </div>
-      <div class="modal-body">
-        Are you sure to share your information?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="connectToArtist">Yes</button>
+      <div class="newconnect" style="margin-bottom: 50px; width: 100%">
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                  Confirmation
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                Are you sure to share your information?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  @click="connectToArtist"
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-2 mx-auto">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            Connect
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-  <div class="d-grid gap-2 col-2  mx-auto">
-    <button type="button" class="btn btn-outline-dark"  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Connect
-</button>
-  
-           
-</div>
-    </div>
-          
-          </div>
-      
-  
-</div>
-  
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "ArtistProfile",
   data() {
     return {
-      user:0,
-      id:null,
-      firstname:'',
-      lastname:'',
-      myprofile:'',
-      description:'',
-      profilepic:'',
-      acheivements: [
-  
-      ],
-      artistwork:[],
-      images: [
-  
-      ],
+      user: 0,
+      id: null,
+      firstname: "",
+      lastname: "",
+      myprofile: "",
+      description: "",
+      profilepic: "",
+      acheivements: [],
+      artistwork: [],
+      images: [],
     };
   },
-  created(){
+  created() {
     const id = this.$route.params.id;
-    this.id= id
+    this.id = id;
     const user = JSON.parse(localStorage.getItem("user"));
-        if(user===null){
-            this.$router.push({name:"login"})
-        }else{
-            this.token = user.token
-            // console.log(this.token)
-      axios.defaults.headers.common["Authorization"] = this.token ;
-    axios.get('http://localhost:5000/data/'+id)
-    .then(resposne=>{
-      console.log(resposne.data.res[0])
-      const data = resposne.data.res
-      this.user = resposne.data.user
-      if(data.length>0){
-      this.acheivements = data[0].achievement
-      this.firstname=data[0].artistfirstname
-      this.lastname=data[0].artistlastname
-      this.myprofile=data[0].name
-      this.description=data[0].about
-      this.profilepic=this.getImageUrl(data[0].artistpic)
-      for(let i = 0;i<data.length;i++){
-        this.artistwork.push(this.getImageUrl(data[i].image))
-      }
-      if(this.artistwork.length>=4){
-        for(let i=0;i<4;i++){
-          this.images.push(this.artistwork[i])
-        }
-      }else{
-        this.images=this.artistwork
-      }
-    }else{
-      this.$router.push({name:"createprofile"})
+    if (user === null) {
+      this.$router.push({ name: "login" });
+    } else {
+      this.token = user.token;
+      // console.log(this.token)
+      axios.defaults.headers.common["Authorization"] = this.token;
+      axios
+        .get("http://localhost:5000/data/" + id)
+        .then((resposne) => {
+          console.log(resposne.data.res[0]);
+          const data = resposne.data.res;
+          this.user = resposne.data.user;
+          if (data.length > 0) {
+            this.acheivements = data[0].achievement;
+            this.firstname = data[0].artistfirstname;
+            this.lastname = data[0].artistlastname;
+            this.myprofile = data[0].name;
+            this.description = data[0].about;
+            this.profilepic = this.getImageUrl(data[0].artistpic);
+            if(data[0].image!=null){
+            for (let i = 0; i < data.length; i++) {
+              this.artistwork.push(this.getImageUrl(data[i].image));
+            }
+            if (this.artistwork.length >= 4) {
+              for (let i = 0; i < 4; i++) {
+                this.images.push(this.artistwork[i]);
+              }
+            } else {
+              this.images = this.artistwork;
+            }}
+          } else {
+            this.$router.push({ name: "createprofile" });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
   },
-  methods:{
-    getImageUrl(image){
-        // console.log(image)
-        if(image==null){
-         return require('@/assets/pexels-mohamed-abdelghaffar-771742.jpg')
-        }else{
+  methods: {
+    getImageUrl(image) {
+      // console.log(image)
+      if (image == null) {
+        return require("@/assets/pexels-mohamed-abdelghaffar-771742.jpg");
+      } else {
         const base64 = window.btoa(
-        new Uint8Array(image.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ''
-        )
-      );
-       
+          new Uint8Array(image.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
+
         return `data:${image.contentType};base64,${base64}`;
-       }
+      }
     },
-    explore(){
-    console.log(this.id)
-      this.$router.push({name:"AllWork", params:{id:this.id}})
+    explore() {
+      console.log(this.id);
+      this.$router.push({ name: "AllWork", params: { id: this.id } });
     },
-    connectToArtist(){
-   
-    const user = JSON.parse(localStorage.getItem("user"));
-        if(user===null){
-            this.$router.push({name:"login"})
-        }else{
-            this.token = user.token
-            // console.log(this.token)
-      axios.defaults.headers.common["Authorization"] = this.token ;
-    axios.post('http://localhost:5000/connect',{id:this.id})
-    .then(resposne=>{
-      console.log(resposne)
-      alert("Details sent Successfully.")
-    
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-    }
-  }
-}
+    connectToArtist() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user === null) {
+        this.$router.push({ name: "login" });
+      } else {
+        this.token = user.token;
+        // console.log(this.token)
+        axios.defaults.headers.common["Authorization"] = this.token;
+        axios
+          .post("http://localhost:5000/connect", { id: this.id })
+          .then((resposne) => {
+            console.log(resposne);
+            alert("Details sent Successfully.");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,600;1,600&display=swap");
 
+h1{
+  font-family: "Aladin", cursive;
+}
 .workContainer {
   padding-top: 50px;
   padding-left: 100px;
@@ -273,9 +284,9 @@ export default {
   justify-content: center;
   padding-bottom: 50px;
 }
-.newconnect{
+.newconnect {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 .content {
   margin-left: 10px;
@@ -393,7 +404,7 @@ export default {
   transition: 750ms ease-in;
   border-radius: 20px;
   border: none;
-  width:95%;
+  width: 95%;
 
   /* z-index: 2; */
   /* box-shadow: 0px -2px 92px 24px rgba(0, 0, 0, 0.38);
@@ -413,8 +424,8 @@ export default {
   }
 }
 .imgdiv {
-    margin-top:10px;
- border-radius: 20px;
+  margin-top: 10px;
+  border-radius: 20px;
   background-color: whitesmoke;
   /* width: 100%; */
   display: flex;
@@ -430,21 +441,23 @@ export default {
 }
 
 .image1 {
-    max-width: 100%;
+  max-width: 100%;
   max-height: 100%;
   /* width: auto;
   height: auto; */
 }
-.explore{
-  cursor: pointer; font-size: 28px; color: white;
+.explore {
+  cursor: pointer;
+  font-size: 28px;
+  color: white;
 }
-.explore:hover{
+.explore:hover {
   transition: 750ms ease-in;
-  
+
   color: rgb(4, 29, 9);
 }
-.connect{
-  padding-top:50px;
+.connect {
+  padding-top: 50px;
   background-color: rgb(218, 215, 211);
 }
 </style>

@@ -11,12 +11,11 @@ import UpdateProfile from "./components/UpdateProfile";
 import UserProfile from "./components/UserProfile";
 import ArtistPage from "./components/ArtistPage";
 import EventManager from "./components/EventManager";
-import AllEvents from "./components/AllEvents"
-import NotFound from './components/NotFound.vue';
-import AllWork from "./components/AllWork"
+import AllEvents from "./components/AllEvents";
+import NotFound from "./components/NotFound.vue";
+import AllWork from "./components/AllWork";
 
 const routes = [
-
   { path: "/", name: "home", component: HomePage },
   { path: "/login", name: "login", component: LoginPage },
   { path: "/signup", name: "signup", component: SignupPage },
@@ -28,7 +27,7 @@ const routes = [
   },
   {
     path: "/createProfile",
-    name:'createprofile',
+    name: "createprofile",
     component: CreateProfile,
   },
   {
@@ -62,18 +61,18 @@ const routes = [
     component: EventManager,
   },
   {
-    path:"/allevents",
-    name:"AllEvents",
-    component:AllEvents
+    path: "/allevents",
+    name: "AllEvents",
+    component: AllEvents,
   },
   {
-    path:"/allwork/:id",
-    name:'AllWork',
-    component:AllWork,
+    path: "/allwork/:id",
+    name: "AllWork",
+    component: AllWork,
     props: true,
   },
   {
-    path: '/:catchAll(.*)',
+    path: "/:catchAll(.*)",
     component: NotFound,
   },
 ];

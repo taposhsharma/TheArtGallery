@@ -1,6 +1,6 @@
 const user = "user";
 
-export const setToken = token => {
+export const setToken = (token) => {
   localStorage.setItem(user, token);
 };
 
