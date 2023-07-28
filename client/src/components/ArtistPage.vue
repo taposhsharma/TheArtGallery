@@ -1,14 +1,24 @@
 <template>
-  <div class="container-fluid" style="margin-top: 50px;">
-  <h1 style="text-align: center; margin-bottom: 50px;">Artist Profiles</h1>
-  <div class="container-fluid">
-      <div class="row" style="margin-bottom: 20px;">
+  <div class="container-fluid body" style="margin-top: 50px">
+    <h1 style="text-align: center; margin-bottom: 50px">Artist Profiles</h1>
+    <div class="container-fluid">
+      <div class="row" style="margin-bottom: 20px">
         <!-- Artist Profiles will be rendered here -->
-        <div class="col-12 col-md-3" v-for="artist in artists" :key="artist.id" style="margin-bottom: 20px; cursor: pointer;">
-            
+        <div
+          class="col-12 col-md-3"
+          v-for="artist in artists"
+          :key="artist.id"
+          style="margin-bottom: 20px; cursor: pointer"
+        >
           <div class="text-center" @click="artistprofile(artist.id)">
-            <img :src="getImageUrl(artist.image)" class="profile-image" alt="Artist Profile Image" >
-            <h4 style="margin-top: 10px;">{{ artist.firstname}} {{ artist.lastname}}</h4>
+            <img
+              :src="getImageUrl(artist.image)"
+              class="profile-image"
+              alt="Artist Profile Image"
+            />
+            <h4 style="margin-top: 10px">
+              {{ artist.firstname }} {{ artist.lastname }}
+            </h4>
             <p>{{ artist.profile }}</p>
           </div>
         </div>
@@ -19,82 +29,84 @@
 
 <script>
 // import { artists } from '@/artists';
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-  name: 'ArtistList',
+  name: "ArtistList",
   data() {
     return {
       artists: [],
-      perPage:20,
-      currentPage:1
+      perPage: 20,
+      currentPage: 1,
     };
   },
-  created(){
+  created() {
     const user = JSON.parse(localStorage.getItem("user"));
-        if(user===null){
-            this.$router.push({name:"login"})
-        }else{
-            this.token = user.token
-            // console.log(this.token)
-      axios.defaults.headers.common["Authorization"] = this.token ;
-      
-        axios.get(`http://localhost:5000/general/profile?limit=${this.perPage}&page=${this.currentPage}`)
-        .then(response=>{
-            console.log(response.data)
-            this.artists = response.data
-         
+    if (user === null) {
+      this.$router.push({ name: "login" });
+    } else {
+      this.token = user.token;
+      // console.log(this.token)
+      axios.defaults.headers.common["Authorization"] = this.token;
+
+      axios
+        .get(
+          `http://localhost:5000/general/profile?limit=${this.perPage}&page=${this.currentPage}`
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.artists = response.data;
         })
-        .catch(err=>{
-          this.$router.push({name:"login"})
-            console.log(err.response.data)
-           
-        })
+        .catch((err) => {
+          this.$router.push({ name: "login" });
+          console.log(err.response.data);
+        });
     }
   },
-  methods:{
-    getImageUrl(image){
-        // console.log(image)
-        if(image==null){
-         return require('@/assets/pexels-mohamed-abdelghaffar-771742.jpg')
-        }else{
+  methods: {
+    getImageUrl(image) {
+      // console.log(image)
+      if (image == null) {
+        return require("@/assets/pexels-mohamed-abdelghaffar-771742.jpg");
+      } else {
         const base64 = window.btoa(
-        new Uint8Array(image.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ''
-        )
-      );
-       
+          new Uint8Array(image.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
+
         return `data:${image.contentType};base64,${base64}`;
-       }
+      }
     },
-    artistprofile(id){
-        this.$router.push({name:"artistprofile",params: { id: id}})
-    }
-  }
+    artistprofile(id) {
+      this.$router.push({ name: "artistprofile", params: { id: id } });
+    },
+  },
 };
 </script>
 
 <style scoped>
+.body{
+  font-family: "Aladin", cursive;
+}
+.artist-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-  .artist-list{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+.artist {
+  margin-bottom: 20px;
+}
 
-  .artist{
-    margin-bottom: 20px; ;
-  }
-
-  .profile-image{
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
+.profile-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
 </style>

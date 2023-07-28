@@ -1,8 +1,8 @@
 <template>
-    <div class="row mybody" style="margin-top: 30px;">
+    <div class="row mybody" style="margin-top: 30px;"  >
   
      
-      <div class="col-12 mysidebar">
+      <div class="col-12 mysidebar" >
         <div class="row">
           <div class="col-3"></div>
           <div class="col-6">
@@ -14,30 +14,44 @@
               <div class="ArtName">
                 <img class="image" :src="this.getImageUrl(data1.userimage)" alt="Image" />
                 <div class="title" style="width:100%">{{ data1.fname }}  {{ data1.lname }} </div>
-             <div class="updateclass">   <button @click="updatepost(data1.pid)" > Update</button></div>
+             <div class="updateclass">   <button class="btn btn-outline-light" @click="updatepost(data1.pid)" > Update</button></div>
               </div>
             </h5>
             <div class="content-div">
-    <div class="limited-content" v-show="!showFullContent" @click="toggleContent">
-      <p class="card-text">{{ limitedText(data1.pcaption) }}...</p>
-  
-    </div>
-    <div class="full-content" v-show="showFullContent" @click="toggleContent"  >
-      <p class="card-text">{{ data1.pcaption }}</p>
-  
-            <div>
-              <h6>Contact details:</h6>
-              Email: <a :href="getemail(data1.pemail)">{{ data1.pemail }}</a
-              ><br />
-              Mobile no: {{ data1.pnumber }}<br />
-              Link:
-              <a :href="data1.plink" target="_blank" rel="noopener noreferrer">{{
-                data1.plink
-              }}</a>
-            </div>
-    </div>
-  
-  </div>
+                  <div
+                    class="limited-content"
+                    v-show="!showFullContent[id]"
+                    @click="toggleContent(id)"
+                  >
+                    <p class="card-text" style="text-align: justify">
+                      {{ limitedText(data1.pcaption) }}...
+                    </p>
+                  </div>
+                  <div
+                    class="full-content"
+                    v-show="showFullContent[id]"
+                    @click="toggleContent(id)"
+                  >
+                    <p class="card-text" style="text-align: justify">
+                      {{ data1.pcaption }}
+                    </p>
+
+                    <div>
+                      <h6>Contact details:</h6>
+                      Email:
+                      <a :href="getemail(data1.pemail)">{{ data1.pemail }}</a
+                      ><br />
+                      Mobile no: {{ data1.pnumber }}<br />
+                      Link:
+                      <a
+                        :href="data1.plink"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >{{ data1.plink }}</a
+                      >
+                    </div>
+                  </div>
+                </div>
   
           
   <div class="imgdiv">
@@ -97,7 +111,7 @@
         originalImageSrc3: require('../assets/calendar.png'),
         isHovered3: false,
         currentPage:1,
-        perPage:10,
+        perPage:4,
         data:[],
        
             email: "taposh@gmail.com",
@@ -106,7 +120,7 @@
         link: "https://www.google.com/",
         email1: "mailto:taposh@gmail.com",
         image: require("../assets/logo.png"),
-        showFullContent:false
+        showFullContent: [],
         // bgimage: { backgroundImage: require("./assets/tree420.jpg") }
       };
     },
@@ -128,7 +142,9 @@
               this.linktoprofile="/artistprofile/"+this.id
               this.data = response.data.result
               console.log(this.data)
-           
+              for (let i = 0; i < this.data.length; i++) {
+            this.showFullContent.push(false);
+          }
           })
           .catch(err=>{
             this.$router.push({name:"login"})
@@ -139,25 +155,25 @@
       },
     methods: {
       callData() {
-        const url = `http://localhost:5000/general/post?limit=${this.perPage}&page=${this.currentPage}`;
-        axios
-          .get(url)
-          .then((response) => {
-            console.log(response.data);
-           
-            if(response.data.length==0){
-              this.prevPage()
-            }
-            this.data = response.data.result
-            
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      },
-      toggleContent() {
-        this.showFullContent = !this.showFullContent;
-      },
+      const url = `http://localhost:5000/general/post?limit=${this.perPage}&page=${this.currentPage}`;
+      axios
+        .get(url)
+        .then((response) => {
+          console.log(response.data);
+          window.scrollTo({top:0,behavior:'smooth'})
+          if (response.data.result.length == 0) {
+            console.log("hello");
+            this.prevPage();
+          }
+          this.data = response.data.result;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+      toggleContent(i) {
+      this.showFullContent[i] = !this.showFullContent[i];
+    },
       getImageUrl(image){
           // console.log(image)
           if(image==null){
@@ -174,10 +190,10 @@
          }
       },
       limitedText(data1) {
-        console.log(data1)
-        const words = data1.split(' ');
-        return words.slice(0, this.maxWords).join(' ');
-      },
+      console.log(data1);
+      const words = data1.split(" ");
+      return words.slice(0, this.maxWords).join(" ");
+    },
       getemail(email){
         return "mailto:"+email
       },
@@ -209,6 +225,7 @@
     /* width: 100%;
      */
      /* overflow: hidden; */
+     font-family: "Aladin", cursive;
   
   }
   
